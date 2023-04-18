@@ -1,10 +1,10 @@
-package ru.alishev.springcourse.FirstSecurityApp.repositories;
+package ua.yuravalkiv.springboot.SpringYzerApp.repositories;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ru.alishev.springcourse.FirstSecurityApp.models.Order;
-import ru.alishev.springcourse.FirstSecurityApp.models.Person;
+import ua.yuravalkiv.springboot.SpringYzerApp.models.Order;
+import ua.yuravalkiv.springboot.SpringYzerApp.models.Person;
 
 
 import java.util.List;

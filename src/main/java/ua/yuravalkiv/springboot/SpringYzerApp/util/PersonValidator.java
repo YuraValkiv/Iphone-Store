@@ -1,16 +1,14 @@
-package ru.alishev.springcourse.FirstSecurityApp.util;
+package ua.yuravalkiv.springboot.SpringYzerApp.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import ru.alishev.springcourse.FirstSecurityApp.models.Person;
-import ru.alishev.springcourse.FirstSecurityApp.services.PersonDetailsService;
+import ua.yuravalkiv.springboot.SpringYzerApp.models.Person;
+import ua.yuravalkiv.springboot.SpringYzerApp.services.PersonDetailsService;
 
-/**
- * @author Neil Alishev
- */
+
 @Component
 public class PersonValidator implements Validator {
 
@@ -33,9 +31,9 @@ public class PersonValidator implements Validator {
         try {
             personDetailsService.loadUserByUsername(person.getUsername());
         } catch (UsernameNotFoundException ignored) {
-            return; // все ок, пользователь не найден
+            return;
         }
 
-        errors.rejectValue("username", "", "Человек с таким именем пользователя уже существует");
+        errors.rejectValue("username", "", "Human with this name not be found");
     }
 }

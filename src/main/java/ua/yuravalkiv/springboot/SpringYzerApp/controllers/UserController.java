@@ -1,5 +1,7 @@
-package ru.alishev.springcourse.FirstSecurityApp.controllers;
+package ua.yuravalkiv.springboot.SpringYzerApp.controllers;
 
+
+import org.junit.jupiter.api.Disabled;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -8,20 +10,21 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.alishev.springcourse.FirstSecurityApp.models.Order;
-import ru.alishev.springcourse.FirstSecurityApp.models.Person;
-import ru.alishev.springcourse.FirstSecurityApp.models.Product;
-import ru.alishev.springcourse.FirstSecurityApp.repositories.OrderRepository;
-import ru.alishev.springcourse.FirstSecurityApp.repositories.PeopleRepository;
-import ru.alishev.springcourse.FirstSecurityApp.repositories.ProductRepository;
-import ru.alishev.springcourse.FirstSecurityApp.security.PersonDetails;
-import ru.alishev.springcourse.FirstSecurityApp.services.EmailService;
-
+import ua.yuravalkiv.springboot.SpringYzerApp.models.Order;
+import ua.yuravalkiv.springboot.SpringYzerApp.models.Person;
+import ua.yuravalkiv.springboot.SpringYzerApp.models.Product;
+import ua.yuravalkiv.springboot.SpringYzerApp.repositories.OrderRepository;
+import ua.yuravalkiv.springboot.SpringYzerApp.repositories.PeopleRepository;
+import ua.yuravalkiv.springboot.SpringYzerApp.repositories.ProductRepository;
+import ua.yuravalkiv.springboot.SpringYzerApp.security.PersonDetails;
+import ua.yuravalkiv.springboot.SpringYzerApp.services.EmailService;
+import ua.yuravalkiv.springboot.SpringYzerApp.util.Translator;
 import java.util.List;
-import java.util.Optional;
+
 
 @Controller
 @RequestMapping("Simple-iPhone-Store")
+@Disabled
 public class UserController {
     @Autowired
     private PeopleRepository peopleRepository;
@@ -35,18 +38,26 @@ public class UserController {
 
     @GetMapping()
     public String index(Model model, @RequestParam(defaultValue = "0") int page,
-                        @RequestParam(defaultValue = "9") int size) {
+                        @RequestParam(defaultValue = "9") int size,
+                        @RequestParam(defaultValue = "null") String lang) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Product> products = productRepository.findAll(pageable);
         model.addAttribute("products", products);
+        Translator.langSetter(lang);
+        Translator.translateTo(model, lang);
+
         return "userView/index";
     }
+
+
     @GetMapping("/{productId}")
-    public String showProductDetails(@PathVariable Long productId, Model model) {
+    public String showProductDetails(@PathVariable Long productId ,@RequestParam(defaultValue = "null") String lang, Model model) {
         // Отримання продукту за id з бази даних
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Продукт не знайдено"));
         model.addAttribute("product", product);
+        Translator.langSetter(lang);
+        Translator.translateTo(model, lang);
         return "userView/details";
     }
 
@@ -78,42 +89,50 @@ public class UserController {
     //Корзина
 
     @GetMapping("/cart")
-    public String getCart(Authentication authentication, Model model) {
+    public String getCart(Authentication authentication, Model model,
+                          @RequestParam(defaultValue = "null") String lang) {
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
         Person person = personDetails.getPerson();
         List<Order> orders = orderRepository.findByPerson(person);
         model.addAttribute("orders", orders);
+        Translator.langSetter(lang);
+        Translator.translateTo(model, lang);
         return "userView/cart";
     }
 
-    //@PostMapping("/buy")
-    //public String buyProductFromCart(@RequestParam("productId") Long productId, Authentication authentication) {
-   //     PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
-   //     Person person = personDetails.getPerson();
-  //      Product product = productRepository.findById(productId).orElseThrow();
- //       Order order = new Order(person, product);
-  //      orderRepository.save(order);
- //       return "redirect:/Simple-iPhone-Store/cart";
- //   }
 
     @DeleteMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
         orderRepository.deleteById(id);
         return "redirect:/Simple-iPhone-Store/cart";
     }
-//    @PostMapping("/buyAll")
-//    public String buyAllProductsFromCart(Authentication authentication) {
- //       PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
-   //     Person person = personDetails.getPerson();
-   //     List<Order> orders = orderRepository.findByPerson(person);
-   //     for (Order order : orders) {
-    //        orderRepository.delete(order);
-   //     }
-    //    return "redirect:/Simple-iPhone-Store/cart";
-   // }
+
+    @PostMapping("/buyAll")
+    public String buyAllProductsFromCart(Authentication authentication) {
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+        Person person = personDetails.getPerson();
+        List<Order> orders = orderRepository.findByPerson(person);
+        for (Order order : orders) {
+            Product product = order.getProduct();
+            emailService.sendEmail(person.getEmail(), "Підтвердження покупки", "Ви успішно придбали товар \" " + product.getName() + " за ціною:  "+ product.getPrice() + "$  " + product.getImagePath());
+        }
+
+
+
+
+
+        orderRepository.deleteAll(orders);
+
+
+
+        return "redirect:/Simple-iPhone-Store/cart";
+    }
 
     @GetMapping("/about")
-    public String aboutPage() {
+    public String aboutPage(Model model,
+                            @RequestParam(defaultValue = "null") String lang) {
+        Translator.langSetter(lang);
+        Translator.translateTo(model, lang);
         return "/userView/about";
     }
 

@@ -1,4 +1,4 @@
-package ru.alishev.springcourse.FirstSecurityApp.services;
+package ua.yuravalkiv.springboot.SpringYzerApp.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

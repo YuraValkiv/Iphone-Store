@@ -1,13 +1,20 @@
-package ru.alishev.springcourse.FirstSecurityApp;
+package ua.yuravalkiv.springboot.SpringYzerApp;
 
+import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringSecurityApp {
+@Disabled
+public class SpringYzerApp {
 
+	@Test
 	public static void main(String[] args) {
-		SpringApplication.run(SpringSecurityApp.class, args);
+
+
+		SpringApplication.run(SpringYzerApp.class, args);
 	}
 
 }

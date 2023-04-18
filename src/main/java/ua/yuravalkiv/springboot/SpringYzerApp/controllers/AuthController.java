@@ -1,4 +1,4 @@
-package ru.alishev.springcourse.FirstSecurityApp.controllers;
+package ua.yuravalkiv.springboot.SpringYzerApp.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.alishev.springcourse.FirstSecurityApp.models.Person;
-import ru.alishev.springcourse.FirstSecurityApp.services.RegistrationService;
-import ru.alishev.springcourse.FirstSecurityApp.util.PersonValidator;
+import ua.yuravalkiv.springboot.SpringYzerApp.models.Person;
+import ua.yuravalkiv.springboot.SpringYzerApp.services.RegistrationService;
+import ua.yuravalkiv.springboot.SpringYzerApp.util.PersonValidator;
 
 import javax.validation.Valid;
 
@@ -51,4 +51,5 @@ public class AuthController {
 
         return "redirect:/auth/login";
     }
+
 }

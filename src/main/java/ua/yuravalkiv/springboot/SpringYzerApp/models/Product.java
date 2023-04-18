@@ -1,4 +1,4 @@
-package ru.alishev.springcourse.FirstSecurityApp.models;
+package ua.yuravalkiv.springboot.SpringYzerApp.models;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -26,7 +26,7 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Order> purchases;
 
-    // Конструкторы, геттеры, сеттеры и т.д.
+
 
 
     public List<Order> getPurchases() {

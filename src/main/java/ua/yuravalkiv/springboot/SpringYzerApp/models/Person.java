@@ -1,15 +1,11 @@
-package ru.alishev.springcourse.FirstSecurityApp.models;
+package ua.yuravalkiv.springboot.SpringYzerApp.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.List;
 
-/**
- * @author Neil Alishev
- */
 @Entity
 @Table(name = "Person")
 public class Person {
@@ -18,16 +14,18 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty(message = "Имя не должно быть пустым")
-    @Size(min = 2, max = 100, message = "Имя должно быть от 2 до 100 символов длиной")
+    @NotEmpty(message = "Name not be empty")
+    @Size(min = 2, max = 100, message = "Name could be min 2 and max 100 char")
     @Column(name = "username")
     private String username;
 
 
-    @Email(message = "некоректна почта")
+    @Email(message = "Incorrect email")
     @Column(name = "email")
     private String email;
 
+
+    @NotEmpty(message = "password not be empty")
     @Column(name = "password")
     private String password;
 
@@ -37,7 +35,6 @@ public class Person {
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
     private List<Order> orders;
 
-    // Конструктор по умолчанию нужен для Spring
 
 
     public List<Order> getOrders() {

@@ -1,4 +1,4 @@
-package ru.alishev.springcourse.FirstSecurityApp.models;
+package ua.yuravalkiv.springboot.SpringYzerApp.models;
 
 import javax.persistence.*;
 

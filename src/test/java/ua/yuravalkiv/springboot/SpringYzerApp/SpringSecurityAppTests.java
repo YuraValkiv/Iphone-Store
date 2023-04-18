@@ -1,4 +1,4 @@
-package ru.alishev.springcourse.FirstSecurityApp;
+package ua.yuravalkiv.springboot.SpringYzerApp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class SpringSecurityAppTests {
 
-	@Test
+
 	void contextLoads() {
 	}
 

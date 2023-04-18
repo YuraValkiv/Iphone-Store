@@ -1,4 +1,4 @@
-package ru.alishev.springcourse.FirstSecurityApp.controllers;
+package ua.yuravalkiv.springboot.SpringYzerApp.controllers;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +10,8 @@ import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.alishev.springcourse.FirstSecurityApp.models.Product;
-import ru.alishev.springcourse.FirstSecurityApp.repositories.ProductRepository;
+import ua.yuravalkiv.springboot.SpringYzerApp.models.Product;
+import ua.yuravalkiv.springboot.SpringYzerApp.repositories.ProductRepository;
 
 import java.util.Optional;
 
