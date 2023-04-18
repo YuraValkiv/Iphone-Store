@@ -2,6 +2,7 @@ package ru.alishev.springcourse.FirstSecurityApp.models;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Table(name = "product")
 @Entity
@@ -22,9 +23,19 @@ public class Product {
 
     @Column(name = "image_path")
     private String imagePath;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<Order> purchases;
 
     // Конструкторы, геттеры, сеттеры и т.д.
 
+
+    public List<Order> getPurchases() {
+        return purchases;
+    }
+
+    public void setPurchases(List<Order> purchases) {
+        this.purchases = purchases;
+    }
 
     public Long getId() {
         return id;
