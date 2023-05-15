@@ -8,9 +8,7 @@ import org.springframework.stereotype.Service;
 import ua.yuravalkiv.springboot.SpringYzerApp.models.Person;
 import ua.yuravalkiv.springboot.SpringYzerApp.repositories.PeopleRepository;
 import ua.yuravalkiv.springboot.SpringYzerApp.security.PersonDetails;
-
 import java.util.Optional;
-
 
 @Service
 public class PersonDetailsService implements UserDetailsService {
@@ -25,10 +23,10 @@ public class PersonDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         Optional<Person> person = peopleRepository.findByUsername(s);
-
         if (person.isEmpty())
             throw new UsernameNotFoundException("User not found");
 
         return new PersonDetails(person.get());
     }
+
 }

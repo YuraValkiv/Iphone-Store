@@ -3,6 +3,7 @@ package ua.yuravalkiv.springboot.SpringYzerApp.models;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 @Table(name = "product")
 @Entity
@@ -14,20 +15,18 @@ public class Product {
 
     @Column(name = "name")
     private String name;
+
     @Column(name = "price")
     private BigDecimal price;
 
     @Column(name = "description")
     private String description;
 
-
     @Column(name = "image_path")
     private String imagePath;
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Order> purchases;
-
-
-
 
     public List<Order> getPurchases() {
         return purchases;
@@ -61,7 +60,6 @@ public class Product {
         this.description = description;
     }
 
-
     public String getImagePath() {
         return imagePath;
     }
@@ -87,5 +85,30 @@ public class Product {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Product)) return false;
+        Product product = (Product) o;
+        return getId().equals(product.getId()) && getName().equals(product.getName()) && getPrice().equals(product.getPrice()) && getDescription().equals(product.getDescription()) && getImagePath().equals(product.getImagePath()) && Objects.equals(getPurchases(), product.getPurchases());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getPrice(), getDescription(), getImagePath(), getPurchases());
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", description='" + description + '\'' +
+                ", imagePath='" + imagePath + '\'' +
+                ", purchases=" + purchases +
+                '}';
     }
 }

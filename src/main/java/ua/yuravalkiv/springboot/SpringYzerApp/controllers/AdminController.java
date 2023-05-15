@@ -19,11 +19,13 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
+
     @Autowired
     private ProductRepository productRepository;
 
     @GetMapping()
-    public String index(Model model, @RequestParam(defaultValue = "0") int page,
+    public String index(Model model,
+                        @RequestParam(defaultValue = "0") int page,
                         @RequestParam(defaultValue = "9") int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Product> products = productRepository.findAll(pageable);
@@ -42,9 +44,10 @@ public class AdminController {
         productRepository.save(product);
         return "redirect:/admin";
     }
-    @GetMapping("/edit/{id}")
-    public String edit(@PathVariable Long id, Model model) {
 
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable Long id,
+                       Model model) {
         Optional<Product> product = productRepository.findById(id);
         if (product.isPresent()) {
             model.addAttribute("product", product.get());
@@ -65,6 +68,7 @@ public class AdminController {
         productRepository.deleteById(id);
         return "redirect:/admin";
     }
+
     @GetMapping("/search")
     public String search(@RequestParam(defaultValue = "0") int page,
                          @RequestParam(defaultValue = "9") int size,

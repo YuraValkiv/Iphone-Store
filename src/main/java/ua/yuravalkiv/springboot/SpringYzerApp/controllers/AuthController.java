@@ -10,12 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ua.yuravalkiv.springboot.SpringYzerApp.models.Person;
 import ua.yuravalkiv.springboot.SpringYzerApp.services.RegistrationService;
 import ua.yuravalkiv.springboot.SpringYzerApp.util.PersonValidator;
-
 import javax.validation.Valid;
 
-/**
- * @author Neil Alishev
- */
 @Controller
 @RequestMapping("/auth")
 public class AuthController {
@@ -43,12 +39,9 @@ public class AuthController {
     public String performRegistration(@ModelAttribute("person") @Valid Person person,
                                       BindingResult bindingResult) {
         personValidator.validate(person, bindingResult);
-
         if (bindingResult.hasErrors())
             return "/auth/registration";
-
         registrationService.register(person);
-
         return "redirect:/auth/login";
     }
 

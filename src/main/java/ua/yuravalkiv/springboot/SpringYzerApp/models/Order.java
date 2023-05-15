@@ -1,10 +1,12 @@
 package ua.yuravalkiv.springboot.SpringYzerApp.models;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "orders")
 public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,12 +19,10 @@ public class Order {
     @JoinColumn(name = "product_id")
     private Product product;
 
-
     public Order() {
     }
 
-    public Order( Person person, Product product) {
-
+    public Order(Person person, Product product) {
         this.person = person;
         this.product = product;
     }
@@ -50,4 +50,27 @@ public class Order {
     public void setProduct(Product product) {
         this.product = product;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Order)) return false;
+        Order order = (Order) o;
+        return Objects.equals(getId(), order.getId()) && Objects.equals(getPerson(), order.getPerson()) && Objects.equals(getProduct(), order.getProduct());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getPerson(), getProduct());
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", person=" + person +
+                ", product=" + product +
+                '}';
+    }
+
 }

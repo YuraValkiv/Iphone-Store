@@ -10,15 +10,14 @@ import java.util.Collections;
 
 
 public class PersonDetails implements UserDetails {
-    private final Person person;
 
+    private final Person person;
     public PersonDetails(Person person) {
         this.person = person;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-
         return Collections.singletonList(new SimpleGrantedAuthority(person.getRole()));
     }
 
@@ -51,7 +50,6 @@ public class PersonDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 
     public Person getPerson() {
         return this.person;

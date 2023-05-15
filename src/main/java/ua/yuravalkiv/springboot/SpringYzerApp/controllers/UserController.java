@@ -1,7 +1,5 @@
 package ua.yuravalkiv.springboot.SpringYzerApp.controllers;
 
-
-import org.junit.jupiter.api.Disabled;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,20 +22,20 @@ import java.util.List;
 
 @Controller
 @RequestMapping("Simple-iPhone-Store")
-@Disabled
 public class UserController {
+
     @Autowired
     private PeopleRepository peopleRepository;
     @Autowired
     private ProductRepository productRepository;
     @Autowired
     private OrderRepository orderRepository;
-
     @Autowired
     private EmailService emailService;
 
     @GetMapping()
-    public String index(Model model, @RequestParam(defaultValue = "0") int page,
+    public String index(Model model,
+                        @RequestParam(defaultValue = "0") int page,
                         @RequestParam(defaultValue = "9") int size,
                         @RequestParam(defaultValue = "null") String lang) {
         Pageable pageable = PageRequest.of(page, size);
@@ -54,10 +52,11 @@ public class UserController {
     public String showProductDetails(@PathVariable Long productId ,@RequestParam(defaultValue = "null") String lang, Model model) {
         // Отримання продукту за id з бази даних
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Продукт не знайдено"));
+                .orElseThrow(() -> new RuntimeException("Product not be found"));
         model.addAttribute("product", product);
         Translator.langSetter(lang);
         Translator.translateTo(model, lang);
+
         return "userView/details";
     }
 
@@ -70,15 +69,18 @@ public class UserController {
         Pageable pageable = PageRequest.of(page, size);
         Page<Product> products = productRepository.findByNameContainingIgnoreCase(keyword, pageable);
         model.addAttribute("products", products);
+
         return "userView/index";
     }
     @PostMapping("/add")
-    public String addProductToCart(@RequestParam("productId") Long productId, Authentication authentication) {
+    public String addProductToCart(@RequestParam("productId") Long productId,
+                                   Authentication authentication) {
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
         Person person = personDetails.getPerson();
         Product product = productRepository.findById(productId).orElseThrow();
         Order order = new Order(person, product);
         orderRepository.save(order);
+
         return "redirect:/Simple-iPhone-Store";
     }
 
@@ -89,7 +91,8 @@ public class UserController {
     //Корзина
 
     @GetMapping("/cart")
-    public String getCart(Authentication authentication, Model model,
+    public String getCart(Authentication authentication,
+                          Model model,
                           @RequestParam(defaultValue = "null") String lang) {
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
         Person person = personDetails.getPerson();
@@ -97,6 +100,7 @@ public class UserController {
         model.addAttribute("orders", orders);
         Translator.langSetter(lang);
         Translator.translateTo(model, lang);
+
         return "userView/cart";
     }
 
@@ -104,6 +108,7 @@ public class UserController {
     @DeleteMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
         orderRepository.deleteById(id);
+
         return "redirect:/Simple-iPhone-Store/cart";
     }
 
@@ -116,14 +121,7 @@ public class UserController {
             Product product = order.getProduct();
             emailService.sendEmail(person.getEmail(), "Підтвердження покупки", "Ви успішно придбали товар \" " + product.getName() + " за ціною:  "+ product.getPrice() + "$  " + product.getImagePath());
         }
-
-
-
-
-
         orderRepository.deleteAll(orders);
-
-
 
         return "redirect:/Simple-iPhone-Store/cart";
     }
@@ -133,6 +131,7 @@ public class UserController {
                             @RequestParam(defaultValue = "null") String lang) {
         Translator.langSetter(lang);
         Translator.translateTo(model, lang);
+
         return "/userView/about";
     }
 

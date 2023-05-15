@@ -2,7 +2,6 @@
 <html>
 <head>
     <title>Products</title>
-    <!-- включение ссылок на стили Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <style>
         .product-card {
@@ -17,17 +16,19 @@
     </style>
 </head>
 <body>
-<!-- ВЕРХНЯ ПАНЕЛЬКА -->
+
 <li class="nav-item">
     <a class="nav-link" href="/logout">Logout</a>
 </li>
 
-<!-- ВЕРХНЯ ПАНЕЛЬКА /-->
 <form class="form-inline my-2 my-lg-0" th:action="@{/admin/search}" method="get">
     <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="keyword">
     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 </form>
+
+
 <h1 class="text-center">List products</h1>
+
 <div class="text-center">
     <a class="btn btn-success" th:href="@{/admin/add}">Add Product</a>
 </div>
@@ -51,7 +52,7 @@
         </div>
     </div>
 </div>
-<!-- УТИЛІТА ПАГІНАЦІЇ -->
+
 <nav aria-label="Page navigation">
     <ul class="pagination justify-content-center">
         <li class="page-item" th:classappend="${products.first} ? disabled">
@@ -65,8 +66,6 @@
         </li>
     </ul>
 </nav>
-<!-- ВЕРХНЯ ПАНЕЛЬКА /-->
-<!-- НИЖНЯ ПАНЕЛЬКА .-->
 
 </body>
 </html>

@@ -26,4 +26,5 @@ public class RegistrationService {
         person.setRole("ROLE_USER");
         peopleRepository.save(person);
     }
+
 }
