@@ -3,23 +3,23 @@ package ua.yuravalkiv.springboot.SpringYzerApp.util;
 import org.springframework.ui.Model;
 
 public class Translator {
-    public boolean setUA;
-
     public void translate(String lang, Model model) {
-        langSetter(lang);
-        translateTo(model, lang);
+        boolean setUA = langSetter(lang);
+        translateTo(model, setUA);
     }
 
-    public void langSetter(String lang) {
+    private boolean langSetter(String lang) {
         if (lang.equals("uk")) {
-            setUA=true;
+            return true;
         } else if (lang.equals("en")) {
-            setUA=false;
+            return false;
         }
+        // За замовчуванням повертаємо false, якщо мова не визначена
+        return false;
     }
 
-    public void translateTo(Model model, String lang) {
-        if (setUA == true) {
+    public void translateTo(Model model, boolean setUA) {
+        if (setUA) {
             model.addAttribute("ListProducts", "Список товарів");
             model.addAttribute("Cart", "Закази");
             model.addAttribute("About", "Про нас");
