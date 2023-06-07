@@ -1,5 +1,6 @@
 package ua.yuravalkiv.springboot.SpringYzerApp.controllers;
 
+import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +18,7 @@ import ua.yuravalkiv.springboot.SpringYzerApp.repositories.ProductRepository;
 import ua.yuravalkiv.springboot.SpringYzerApp.security.PersonDetails;
 import ua.yuravalkiv.springboot.SpringYzerApp.services.EmailService;
 import ua.yuravalkiv.springboot.SpringYzerApp.util.Translator;
+
 import java.util.List;
 
 
@@ -33,38 +35,47 @@ public class UserController {
     @Autowired
     private EmailService emailService;
 
+
+
     @GetMapping()
     public String index(Model model,
                         @RequestParam(defaultValue = "0") int page,
                         @RequestParam(defaultValue = "9") int size,
-                        @RequestParam(defaultValue = "null") String lang) {
+                        @RequestParam(defaultValue = "null") String lang
+                        ) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Product> products = productRepository.findAll(pageable);
         model.addAttribute("products", products);
+        Translator.translateTo(model);
 
         return "userView/index";
     }
 
 
     @GetMapping("/{productId}")
-    public String showProductDetails(@PathVariable Long productId ,@RequestParam(defaultValue = "null") String lang, Model model) {
+    public String showProductDetails(@PathVariable Long productId,
+                                     @RequestParam(defaultValue = "null") String lang,
+                                     Model model) {
         // Отримання продукту за id з бази даних
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Product not be found"));
         model.addAttribute("product", product);
+
 
         return "userView/details";
     }
 
 
     @GetMapping("/search")
-    public String search(@RequestParam(defaultValue = "0") int page,
+    public String search(Authentication authentication,
+                         @RequestParam(defaultValue = "0") int page,
                          @RequestParam(defaultValue = "9") int size,
                          @RequestParam String keyword,
                          Model model) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Product> products = productRepository.findByNameContainingIgnoreCase(keyword, pageable);
         model.addAttribute("products", products);
+
 
         return "userView/index";
     }
@@ -76,6 +87,7 @@ public class UserController {
         Product product = productRepository.findById(productId).orElseThrow();
         Order order = new Order(person, product);
         orderRepository.save(order);
+
 
         return "redirect:/Simple-iPhone-Store";
     }
@@ -94,7 +106,7 @@ public class UserController {
         Person person = personDetails.getPerson();
         List<Order> orders = orderRepository.findByPerson(person);
         model.addAttribute("orders", orders);
-
+        Translator.translateTo(model);
 
         return "userView/cart";
     }
@@ -124,7 +136,7 @@ public class UserController {
     @GetMapping("/about")
     public String aboutPage(Model model,
                             @RequestParam(defaultValue = "null") String lang) {
-        
+        Translator.translateTo(model);
 
         return "/userView/about";
     }

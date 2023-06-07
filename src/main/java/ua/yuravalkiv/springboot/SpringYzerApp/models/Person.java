@@ -32,6 +32,7 @@ public class Person {
     @Column(name = "role")
     private String role;
 
+
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
     private List<Order> orders;
 
@@ -81,6 +82,8 @@ public class Person {
     public void setRole(String role) {
         this.role = role;
     }
+
+
 
     @Override
     public String toString() {
