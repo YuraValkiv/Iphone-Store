@@ -3,21 +3,22 @@ package ua.yuravalkiv.springboot.SpringYzerApp.util;
 import org.springframework.ui.Model;
 
 public class Translator {
-    public static boolean setUA;
+    public boolean setUA;
 
+    public void translate(String lang, Model model) {
+        langSetter(lang);
+        translateTo(model, lang);
+    }
 
-
-    public static void langSetter(String lang) {
+    public void langSetter(String lang) {
         if (lang.equals("uk")) {
             setUA=true;
         } else if (lang.equals("en")) {
             setUA=false;
         }
-
     }
 
-    public static void translateTo(Model model, String lang) {
-
+    public void translateTo(Model model, String lang) {
         if (setUA == true) {
             model.addAttribute("ListProducts", "Список товарів");
             model.addAttribute("Cart", "Закази");
@@ -36,7 +37,6 @@ public class Translator {
             model.addAttribute("Delete", "Видалити");
             model.addAttribute("BuyAll", "Купити всьо");
             model.addAttribute("DESCRIPTION", "Simple-iPhone-Store - це інтернет-магазин, який спеціалізується на продажі продукції Apple, зокрема iPhone. Наш магазин надає клієнтам можливість купувати як нові, так і відновлені моделі iPhone за доступною ціною. У нас завжди великий вибір товарів, а також ми забезпечуємо високу якість обслуговування та швидку доставку. Звертайтеся до нас, якщо вам потрібен надійний та професійний інтернет-магазин для покупки продукції Apple.");
-
         } else {
             model.addAttribute("ListProducts", "List of products");
             model.addAttribute("Cart", "Cart");
@@ -55,7 +55,6 @@ public class Translator {
             model.addAttribute("Delete", "Delete");
             model.addAttribute("BuyAll", "Buy all");
             model.addAttribute("DESCRIPTION", "Simple-iPhone-Store is an online store specializing in the sale of Apple products, in particular the iPhone. Our store provides customers with the opportunity to purchase both new and refurbished iPhone models at an affordable price. We always have a large selection of products, and we also provide high quality service and fast delivery. Contact us if you need a reliable and professional online store to buy Apple products.");
-
         }
     }
 }
