@@ -41,7 +41,6 @@ public class UserController {
         Pageable pageable = PageRequest.of(page, size);
         Page<Product> products = productRepository.findAll(pageable);
         model.addAttribute("products", products);
-        new Translator().translate(lang, model);
 
         return "userView/index";
     }
@@ -53,7 +52,6 @@ public class UserController {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Product not be found"));
         model.addAttribute("product", product);
-        new Translator().translate(lang, model);
 
         return "userView/details";
     }
@@ -96,7 +94,7 @@ public class UserController {
         Person person = personDetails.getPerson();
         List<Order> orders = orderRepository.findByPerson(person);
         model.addAttribute("orders", orders);
-        new Translator().translate(lang, model);
+
 
         return "userView/cart";
     }
@@ -126,7 +124,7 @@ public class UserController {
     @GetMapping("/about")
     public String aboutPage(Model model,
                             @RequestParam(defaultValue = "null") String lang) {
-        new Translator().translate(lang, model);
+        
 
         return "/userView/about";
     }
